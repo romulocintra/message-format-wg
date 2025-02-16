@@ -49,18 +49,42 @@ local = %s".local"
 match = %s".match"
 
 ; Names and identifiers
-; identifier matches https://www.w3.org/TR/REC-xml-names/#NT-QName
-; name matches https://www.w3.org/TR/REC-xml-names/#NT-NCName but excludes U+FFFD and U+061C
 identifier = [namespace ":"] name
 namespace  = name
 name       = [bidi] name-start *name-char [bidi]
-name-start = ALPHA / "_"
-           / %xC0-D6 / %xD8-F6 / %xF8-2FF
-           / %x370-37D / %x37F-61B / %x61D-1FFF / %x200C-200D
-           / %x2070-218F / %x2C00-2FEF / %x3001-D7FF
-           / %xF900-FDCF / %xFDF0-FFFC / %x10000-EFFFF
-name-char  = name-start / DIGIT / "-" / "."
-           / %xB7 / %x300-36F / %x203F-2040
+name-start = ALPHA
+                  / %x2B          ; 【+】     omit Cc %x0-1F, Whitespace %20, Ascii 【!"#$%&'()*】
+                  / %x5F          ; 【_】     omit Ascii 【,-./0123456789:;<=>?@】 【[\]^】
+                  / %xA1-61B      ;          omit Cc %x7F-9F, Whitespace %xA0, Ascii 【`】 【{|}~】
+                  / %x61D-167F    ;          omit BidiControl %x61C
+                  / %x1681-1FFF   ;          omit Whitespace %x1680
+                  / %x200B-200D   ;          omit Whitespace %x2000-200A
+                  / %x2010-2027   ;          omit BidiControl %x200E-200F
+                  / %x2030-205E   ;          omit Whitespace %x2028-2029 %x202F, BidiControl %x202A-202E
+                  / %x2060-2065   ;          omit Whitespace %x205F
+                  / %x206A-2FFF   ;          omit BidiControl %x2066-2069
+                  / %x3001-D7FF   ;          omit Whitespace %x3000
+                  / %xF900-FDCF   ;          omit Cs %xD800-DFFF, Co %xE000-F8FF
+                  / %xFDF0-FFFD   ;          omit NChar %xFDD0-FDEF
+                  / %x10000-1FFFD ;          omit NChar %xFFFE-FFFF
+                  / %x20000-2FFFD ;          omit NChar %x1FFFE-1FFFF
+                  / %x30000-3FFFD ;          omit NChar %x2FFFE-2FFFF
+                  / %x40000-4FFFD ;          omit NChar %x3FFFE-3FFFF
+                  / %x50000-5FFFD ;          omit NChar %x4FFFE-4FFFF
+                  / %x60000-6FFFD ;          omit NChar %x5FFFE-5FFFF
+                  / %x70000-7FFFD ;          omit NChar %x6FFFE-6FFFF
+                  / %x80000-8FFFD ;          omit NChar %x7FFFE-7FFFF
+                  / %x90000-9FFFD ;          omit NChar %x8FFFE-8FFFF
+                  / %xA0000-AFFFD ;          omit NChar %x9FFFE-9FFFF
+                  / %xB0000-BFFFD ;          omit NChar %xAFFFE-AFFFF
+                  / %xC0000-CFFFD ;          omit NChar %xBFFFE-BFFFF
+                  / %xD0000-DFFFD ;          omit NChar %xCFFFE-CFFFF
+                  / %xE0000-EFFFD ;          omit NChar %xDFFFE-DFFFF,
+                                  ;          omit NChar %xEFFFE-EFFFF %xFFFFE-FFFFF %x10FFFE-10FFFF,
+                                  ;          omit Co %xF0000-FFFFD %x100000-10FFFD
+
+name-char  = name-start / DIGIT
+                  / %x2D-2E       ; 【-.】    omit Cc %x0-1F, Whitespace 【 】, Ascii 【!"#$%&'()*+,】
 
 ; Restrictions on characters in various contexts
 simple-start-char = %x01-08        ; omit NULL (%x00), HTAB (%x09) and LF (%x0A)

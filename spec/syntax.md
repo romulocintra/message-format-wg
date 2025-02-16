@@ -843,14 +843,64 @@ option     = identifier o "=" o (literal / variable)
 identifier = [namespace ":"] name
 namespace  = name
 name       = [bidi] name-start *name-char [bidi]
-name-start = ALPHA / "_"
-           / %xC0-D6 / %xD8-F6 / %xF8-2FF
-           / %x370-37D / %x37F-61B / %x61D-1FFF / %x200C-200D
-           / %x2070-218F / %x2C00-2FEF / %x3001-D7FF
-           / %xF900-FDCF / %xFDF0-FFFC / %x10000-EFFFF
-name-char  = name-start / DIGIT / "-" / "."
-           / %xB7 / %x300-36F / %x203F-2040
+name-start = ALPHA
+                  / %x2B          ; 【+】     omit Cc %x0-1F, Whitespace %20, Ascii 【!"#$%&'()*】
+                  / %x5F          ; 【_】     omit Ascii 【,-./0123456789:;<=>?@】 【[\]^】
+                  / %xA1-61B      ;          omit Cc %x7F-9F, Whitespace %xA0, Ascii 【`】 【{|}~】
+                  / %x61D-167F    ;          omit BidiControl %x61C
+                  / %x1681-1FFF   ;          omit Whitespace %x1680
+                  / %x200B-200D   ;          omit Whitespace %x2000-200A
+                  / %x2010-2027   ;          omit BidiControl %x200E-200F
+                  / %x2030-205E   ;          omit Whitespace %x2028-2029 %x202F, BidiControl %x202A-202E
+                  / %x2060-2065   ;          omit Whitespace %x205F
+                  / %x206A-2FFF   ;          omit BidiControl %x2066-2069
+                  / %x3001-D7FF   ;          omit Whitespace %x3000
+                  / %xF900-FDCF   ;          omit Cs %xD800-DFFF, Co %xE000-F8FF
+                  / %xFDF0-FFFD   ;          omit NChar %xFDD0-FDEF
+                  / %x10000-1FFFD ;          omit NChar %xFFFE-FFFF
+                  / %x20000-2FFFD ;          omit NChar %x1FFFE-1FFFF
+                  / %x30000-3FFFD ;          omit NChar %x2FFFE-2FFFF
+                  / %x40000-4FFFD ;          omit NChar %x3FFFE-3FFFF
+                  / %x50000-5FFFD ;          omit NChar %x4FFFE-4FFFF
+                  / %x60000-6FFFD ;          omit NChar %x5FFFE-5FFFF
+                  / %x70000-7FFFD ;          omit NChar %x6FFFE-6FFFF
+                  / %x80000-8FFFD ;          omit NChar %x7FFFE-7FFFF
+                  / %x90000-9FFFD ;          omit NChar %x8FFFE-8FFFF
+                  / %xA0000-AFFFD ;          omit NChar %x9FFFE-9FFFF
+                  / %xB0000-BFFFD ;          omit NChar %xAFFFE-AFFFF
+                  / %xC0000-CFFFD ;          omit NChar %xBFFFE-BFFFF
+                  / %xD0000-DFFFD ;          omit NChar %xCFFFE-CFFFF
+                  / %xE0000-EFFFD ;          omit NChar %xDFFFE-DFFFF,
+                                  ;          omit NChar %xEFFFE-EFFFF %xFFFFE-FFFFF %x10FFFE-10FFFF,
+                                  ;          omit Co %xF0000-FFFFD %x100000-10FFFD
+name-char  = name-start / DIGIT
+                  / %x2D-2E       ; 【-.】    omit Cc %x0-1F, Whitespace 【 】, Ascii 【!"#$%&'()*+,】
 ```
+
+> [!NOTE]
+> Syntactically, the definitions of `identifier` and `name-char` provide backwards compatibility over time by allowing a stable,
+> wide range of characters.
+> So when there is a new character in a version of Unicode, it can be used in any conformant implementation of MessageFormat.
+> The definition currently excludes:
+> * Most ASCII except for letters and characters used for numbers
+>    * This avoids conflicts with syntax characters, and reserves some characters for future syntax.
+> * Bidirectional controls (`Bidi_C`)
+> * Control characters (`GC=Cc`, but not Format characters: `GC=Cf`)
+> * Whitespace characters (`WSpace`)
+> * Surrogate code points (`GC=Cs`)
+> * Private use characters (`GC=Co`)
+> * Non-Characters (`NChar`)
+>
+This syntax allows a wide range of characters in _names_ and _identifiers_.
+Implementers and authors of _functions_ and _messages_,
+including _functions_, _options_, and _operands_ (variable names),
+SHOULD avoid creating _names_ that could produce confusion or harm usability
+by choosing names consistent with the following guidelines.
+MessageFormat tools, such as linters, SHOULD warn when _names_ chosen by users
+violate these constraints.
+>
+> 1. [Unicode Default Identifier Syntax](https://www.unicode.org/reports/tr31/#Default_Identifier_Syntax)
+> 2. [Unicode General Security Profile for Identifiers](https://www.unicode.org/reports/tr39/#General_Security_Profile)
 
 ### Escape Sequences
 
