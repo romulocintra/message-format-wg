@@ -1,6 +1,4 @@
-# Formatting
-
-## Introduction
+## Formatting
 
 This section defines the behavior of a MessageFormat 2.0 implementation
 when formatting a _message_ for display in a user interface, or for some later processing.
@@ -78,7 +76,7 @@ nor be made available to _function handlers_.
 > particularly since such a _function handler_ can present a remote execution hazard.
 >
 
-## Formatting Context
+### Formatting Context
 
 A _message_'s **_<dfn>formatting context</dfn>_** represents the data and procedures that are required
 for the _message_'s _expression resolution_, _pattern selection_ and _formatting_.
@@ -104,7 +102,7 @@ At a minimum, it includes:
 
 Implementations MAY include additional fields in their _formatting context_.
 
-## Resolved Values
+### Resolved Values
 
 A **_<dfn>resolved value</dfn>_** is the result of resolving a _text_, _literal_, _variable_, _expression_, or _markup_.
 The _resolved value_ is determined using the _formatting context_.
@@ -180,7 +178,7 @@ and different implementations MAY choose to perform different levels of resoluti
 > or automatically wrap each variable as a `MessageValue` to provide a uniform interface
 > for custom functions.
 
-## Expression and Markup Resolution
+### Expression and Markup Resolution
 
 _Expressions_ are used in _declarations_ and _patterns_.
 _Markup_ is only used in _patterns_.
@@ -226,7 +224,7 @@ Its _resolved value_ is defined by _literal resolution_.
 > {{You have {42 :number}}}
 > ```
 
-### Literal Resolution
+#### Literal Resolution
 
 The _resolved value_ of a _text_ or a _literal_ contains
 the character sequence of the _text_ or _literal_
@@ -256,7 +254,7 @@ whether its value was originally a _quoted literal_ or an _unquoted literal_.
 > }
 > ```
 
-### Variable Resolution
+#### Variable Resolution
 
 To resolve the value of a _variable_,
 its _name_ is used to identify either a local variable or an input variable.
@@ -274,7 +272,7 @@ a _fallback value_ is used as the _resolved value_ of the _variable_.
 The _fallback value_ representation of a _variable_ has a string representation
 consisting of the U+0024 DOLLAR SIGN `$` followed by the _name_ of the _variable_.
 
-### Function Resolution
+#### Function Resolution
 
 To resolve an _expression_ with a _function_,
 the following steps are taken:
@@ -335,7 +333,7 @@ the following steps are taken:
   
    In all failure cases, return a _fallback value_ as the _resolved value_ of the _expression_.
 
-#### Function Handler
+##### Function Handler
 
 A **_<dfn>function handler</dfn>_** is an implementation-defined process
 such as a function or method
@@ -367,7 +365,7 @@ and execution time SHOULD be limited.
 
 Implementation-defined _functions_ SHOULD use an implementation-defined _namespace_.
 
-#### Option Resolution
+##### Option Resolution
 
 **_<dfn>Option resolution</dfn>_** is the process of computing the _options_
 for a given _expression_. 
@@ -402,7 +400,7 @@ This mapping can be empty.
 > These are not included in the _option resolution_ result,
 > and need to be processed separately by a _function handler_.
 
-### Markup Resolution
+#### Markup Resolution
 
 Unlike _functions_, the resolution of _markup_ is not customizable.
 
@@ -418,7 +416,7 @@ Such `u:` options MAY be removed from the resolved mapping of _options_.
 
 The resolution of _markup_ MUST always succeed.
 
-### Fallback Resolution
+#### Fallback Resolution
 
 A **_<dfn>fallback value</dfn>_** is the _resolved value_ for
 an _expression_ or _variable_ when that _expression_ or _variable_ fails to resolve.
@@ -505,7 +503,7 @@ _Pattern selection_ is not supported for _fallback values_.
 > }
 > ```
 
-## Pattern Selection
+### Pattern Selection
 
 If the _message_ being formatted is not _well-formed_ and _valid_,
 the result of pattern selection is a _pattern_ consisting of a single _fallback value_
@@ -579,7 +577,7 @@ This selection method is defined in more detail below.
 An implementation MAY use any pattern selection method,
 as long as its observable behavior matches the results of the method defined here.
 
-### Resolve Selectors
+#### Resolve Selectors
 
 First, resolve the values of each _selector_:
 
@@ -596,7 +594,7 @@ First, resolve the values of each _selector_:
 The form of the _resolved values_ is determined by each implementation,
 along with the manner of determining their support for selection.
 
-### Resolve Preferences
+#### Resolve Preferences
 
 Next, using `res`, resolve the preferential order for all message keys:
 
@@ -628,7 +626,7 @@ If calling MatchSelectorKeys encounters any error,
 a _Bad Selector_ error is emitted
 and an empty list is returned.
 
-### Filter Variants
+#### Filter Variants
 
 Then, using the preferential key orders `pref`,
 filter the list of _variants_ to the ones that match with some preference:
@@ -648,7 +646,7 @@ filter the list of _variants_ to the ones that match with some preference:
          1. Continue the outer loop on message _variants_.
    1. Append `var` as the last element of the list `vars`.
 
-### Sort Variants
+#### Sort Variants
 
 Finally, sort the list of variants `vars` and select the _pattern_:
 
@@ -687,11 +685,11 @@ as long as it satisfies the following requirements:
 1. The sort is stable (pairs of tuples from `sortable` that are equal
    in their first element have the same relative order in `sorted`).
 
-### Examples
+#### Pattern Selection Examples
 
 _This section is non-normative._
 
-#### Example 1
+##### Selection Example 1
 
 Presuming a minimal implementation which only supports `:string` _function_
 which matches keys by using string comparison,
@@ -728,7 +726,7 @@ foo foo {{All foo}}
 4. As the list `vars` only has one entry, it does not need to be sorted.<br>
    The pattern `Otherwise` of the third variant is selected.
 
-#### Example 2
+##### Selection Example 2
 
 Alternatively, with the same implementation and formatting context as in Example 1,
 pattern selection would proceed as follows for this message:
@@ -770,7 +768,7 @@ foo bar {{Foo and bar}}
 
 5. The pattern `Foo and bar` of the most preferred `foo bar` variant is selected.
 
-#### Example 3
+##### Selection Example 3
 
 A more-complex example is the matching found in selection APIs
 such as ICU's `PluralFormat`.
@@ -811,7 +809,7 @@ one {{Category match for {$count}}}
 
 4. The pattern `Exact match for {$count}` of the most preferred `1` variant is selected.
 
-## Formatting
+### Formatting of the Selected Pattern
 
 After _pattern selection_,
 each _text_ and _placeholder_ part of the selected _pattern_ is resolved and formatted.
@@ -840,7 +838,7 @@ MUST be an empty string.
 Implementations MAY offer functionality for customizing this,
 such as by emitting XML-ish tags for each _markup_.
 
-### Examples
+#### Formatting Examples
 
 _This section is non-normative._
 
@@ -854,7 +852,7 @@ _This section is non-normative._
 2. A formatter in a web browser could format a message as a DOM fragment
    rather than as a representation of its HTML source.
 
-### Formatting Fallback Values
+#### Formatting Fallback Values
 
 If the resolved _pattern_ includes any _fallback values_
 and the formatting result is a concatenated string or a sequence of strings,
@@ -868,7 +866,7 @@ and a U+007D RIGHT CURLY BRACKET `}`.
 > unless a fallback string is defined in the _formatting context_,
 > in which case that string would be used instead.
 
-### Handling Bidirectional Text
+#### Handling Bidirectional Text
 
 _Messages_ contain text. Any text can be 
 [bidirectional text](https://www.w3.org/TR/i18n-glossary/#dfn-bidirectional-text).

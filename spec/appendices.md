@@ -1,6 +1,6 @@
-# Appendices
+## Appendices
 
-## Security Considerations
+### Security Considerations
 
 MessageFormat 2.0 _patterns_ are meant to allow a _message_ to include any string value
 which users might normally wish to use in their environment.
@@ -43,7 +43,7 @@ fingerprinting, and other types of bad behavior.
 Any installed code needs to be appropriately sandboxed.
 In addition, end-users need to be aware of the risks involved.
 
-## Acknowledgements
+### Acknowledgements
 
 Special thanks to the following people for their contributions to making MessageFormat v2.
 The following people contributed to our github repo and are listed in order by contribution size:

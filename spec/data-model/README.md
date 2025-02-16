@@ -1,4 +1,4 @@
-# Interchange Data Model
+## Interchange Data Model
 
 This section defines a data model representation of MessageFormat 2 _messages_.
 
@@ -47,7 +47,7 @@ declarations, options, and attributes to be optional rather than required proper
 > sometimes uses the production `identifier`.
 > This happens when the named item, such as a _function_, supports namespacing.
 
-## Messages
+### Message Model
 
 A `SelectMessage` corresponds to a syntax message that includes _selectors_.
 A message without _selectors_ and with a single _pattern_ is represented by a `PatternMessage`.
@@ -114,7 +114,7 @@ interface CatchallKey {
 }
 ```
 
-## Patterns
+### Pattern Model
 
 Each `Pattern` contains a linear sequence of text and placeholders corresponding to potential output of a message.
 
@@ -160,7 +160,7 @@ interface FunctionExpression {
 }
 ```
 
-## Expressions
+### Expression Model
 
 The `Literal` and `VariableRef` correspond to the the _literal_ and _variable_ syntax rules.
 When they are used as the `body` of an `Expression`,
@@ -200,7 +200,7 @@ interface FunctionRef {
 type Options = Map<string, Literal | VariableRef>;
 ```
 
-## Markup
+### Markup Model
 
 A `Markup` object has a `kind` of either `"open"`, `"standalone"`, or `"close"`,
 each corresponding to _open_, _standalone_, and _close_ _markup_.
@@ -218,7 +218,7 @@ interface Markup {
 }
 ```
 
-## Attributes
+### Attribute Model
 
 `Attributes` is a key-value mapping
 used to represent the _expression_ and _markup_ _attributes_.
@@ -229,7 +229,7 @@ _Attributes_ with no value are represented by `true` here.
 type Attributes = Map<string, Literal | true>;
 ```
 
-## Extensions
+### Model Extensions
 
 Implementations MAY extend this data model with additional interfaces,
 as well as adding new fields to existing interfaces.

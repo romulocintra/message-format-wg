@@ -1,13 +1,16 @@
 ## Date and Time Value Formatting
 
-This subsection describes the functions and options for date/time formatting.
-Selection based on date and time values is NOT REQUIRED in this release.
+This subsection describes the _functions_ and _options_ for date/time formatting.
+
+> [!IMPORTANT]
+> The _functions_ in this section have a status of **Draft**.
+> They are proposed for inclusion in a future release and are not Stable.
 
 > [!NOTE]
-> Selection based on date/time types is not required by MF2.
-> Implementations should use care when defining selectors based on date/time types.
+> Selection based on date/time types is not required by this release of MessageFormat.
+> Use care when defining implementation-specific _selectors_ based on date/time types.
 > The types of queries found in implementations such as `java.time.TemporalAccessor`
-> are complex and user expectations may be inconsistent with good I18N practices.
+> are complex and user expectations might be inconsistent with good I18N practices.
 
 ### The `:datetime` function
 
@@ -280,11 +283,12 @@ the functions `:datetime`, `:date`, and `:time`.
 - `numberingSystem`
   - valid [Unicode Number System Identifier](https://unicode.org/reports/tr35/tr35.html#UnicodeNumberSystemIdentifier)
 
-The following _option_ and its values are **Proposed** for
-inclusion in the next release of this specification but have not yet been
-finalized.
-If accepted, implementations could be REQUIRED to make this _option_
-available in the functions `:datetime`, `:date`, and `:time`.
+> [!IMPORTANT]
+> The following _option_ and its values are **Proposed** for
+> inclusion in a future release of this specification but have not yet been
+> finalized.
+> If accepted, implementations could be REQUIRED to make this _option_
+> available in the functions `:datetime`, `:date`, and `:time`.
 
 - `timeZone`
   - A valid time zone identifier

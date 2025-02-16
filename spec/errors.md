@@ -1,4 +1,4 @@
-# Errors
+## Errors
 
 Errors can occur during the processing of a _message_.
 Some errors can be detected statically, 
@@ -9,7 +9,7 @@ Other errors might be detected during selection or formatting of a given _messag
 Where available, the use of validation tools is recommended,
 as early detection of errors makes their correction easier.
 
-## Error Handling
+### Error Handling
 
 _Syntax Errors_ and _Data Model Errors_ apply to all message processors,
 and MUST be emitted as soon as possible.
@@ -51,7 +51,7 @@ or calling MatchSelectorKeys with its resolved value,
 the _selector_ MUST NOT match any _variant_ _key_ other than the catch-all `*`
 and a _Bad Selector_ error MUST be emitted.
 
-## Syntax Errors
+### Syntax Errors
 
 **_<dfn>Syntax Errors</dfn>_** occur when the syntax representation of a message is not _well-formed_.
 
@@ -73,12 +73,12 @@ and a _Bad Selector_ error MUST be emitted.
 > .local $var = {|no message body|}
 > ```
 
-## Data Model Errors
+### Data Model Errors
 
 **_<dfn>Data Model Errors</dfn>_** occur when a message is not _valid_ due to
 violating one of the semantic requirements on its structure.
 
-### Variant Key Mismatch
+#### Variant Key Mismatch
 
 A **_<dfn>Variant Key Mismatch</dfn>_** occurs when the number of keys on a _variant_
 does not equal the number of _selectors_.
@@ -101,7 +101,7 @@ does not equal the number of _selectors_.
 > * * {{Otherwise}}
 > ```
 
-### Missing Fallback Variant
+#### Missing Fallback Variant
 
 A **_<dfn>Missing Fallback Variant</dfn>_** error occurs when the message
 does not include a _variant_ with only catch-all keys.
@@ -123,7 +123,7 @@ does not include a _variant_ with only catch-all keys.
 > * 1 {{Second is one}}
 > ```
 
-### Missing Selector Annotation
+#### Missing Selector Annotation
 
 A **_<dfn>Missing Selector Annotation</dfn>_** error occurs when the _message_
 contains a _selector_ that does not
@@ -151,7 +151,7 @@ directly or indirectly reference a _declaration_ with a _function_.
 > * {{Value is not one}}
 > ```
 
-### Duplicate Declaration
+#### Duplicate Declaration
 
 A **_<dfn>Duplicate Declaration</dfn>_** error occurs when a _variable_ is declared more than once.
 Note that an input _variable_ is implicitly declared when it is first used,
@@ -182,7 +182,7 @@ so explicitly declaring it after such use is also an error.
 > {{{$var} cannot be redefined. {$var2} cannot refer to itself}}
 > ```
 
-### Duplicate Option Name
+#### Duplicate Option Name
 
 A **_<dfn>Duplicate Option Name</dfn>_** error occurs when the same _identifier_
 appears on the left-hand side of more than one _option_ in the same _expression_.
@@ -198,7 +198,7 @@ appears on the left-hand side of more than one _option_ in the same _expression_
 > {{This is {$foo}}}
 > ```
 
-### Duplicate Variant
+#### Duplicate Variant
 
 A **_<dfn>Duplicate Variant</dfn>_** error occurs when the
 same list of _keys_ is used for more than one _variant_.
@@ -222,12 +222,12 @@ same list of _keys_ is used for more than one _variant_.
 > *   *     {{The default variant}}
 > ```
 
-## Resolution Errors
+### Resolution Errors
 
 **_<dfn>Resolution Errors</dfn>_** occur when the runtime value of a part of a message
 cannot be determined.
 
-### Unresolved Variable
+#### Unresolved Variable
 
 An **_<dfn>Unresolved Variable</dfn>_** error occurs when a variable reference cannot be resolved.
 
@@ -246,7 +246,7 @@ An **_<dfn>Unresolved Variable</dfn>_** error occurs when a variable reference c
 > * {{The value is not one.}}
 > ```
 
-### Unknown Function
+#### Unknown Function
 
 An **_<dfn>Unknown Function</dfn>_** error occurs when an _expression_ includes
 a reference to a function which cannot be resolved.
@@ -266,7 +266,7 @@ a reference to a function which cannot be resolved.
 > * {{The value is not one.}}
 > ```
 
-### Bad Selector
+#### Bad Selector
 
 A **_<dfn>Bad Selector</dfn>_** error occurs when a message includes a _selector_
 with a _resolved value_ which does not support selection.
@@ -280,7 +280,7 @@ with a _resolved value_ which does not support selection.
 > * {{The due date is {$day}}}
 > ```
 
-## Message Function Errors
+### Message Function Errors
 
 A **_<dfn>Message Function Error</dfn>_** is any error that occurs
 when calling a _function handler_
@@ -319,7 +319,7 @@ Implementations MAY also provide implementation-defined _Message Function Error_
 > Your {$field} is {$id :ns:get field=$field}
 > ```
 
-### Bad Operand
+#### Bad Operand
 
 A **_<dfn>Bad Operand</dfn>_** error is any error that occurs due to the content or format of the _operand_,
 such as when the _operand_ provided to a _function_ during _function resolution_ does not match one of the
@@ -344,7 +344,7 @@ for that specific _function_.
 > * {{The value is not one.}}
 > ```
 
-### Bad Option
+#### Bad Option
 
 A **_<dfn>Bad Option</dfn>_** error is an error that occurs when there is
 an implementation-defined error with an _option_ or its value.
@@ -365,7 +365,7 @@ These might include:
 > The answer is {42 :number minimumFractionDigits=foo}.
 > ```
 
-### Bad Variant Key
+#### Bad Variant Key
 
 A **_<dfn>Bad Variant Key</dfn>_** error is an error that occurs when a _variant_ _key_
 does not match the expected implementation-defined format.
@@ -383,7 +383,7 @@ does not match the expected implementation-defined format.
 > *     {{The value is not one.}}
 > ```
 
-### Unsupported Operation
+#### Unsupported Operation
 
 A **_<dfn>Unsupported Operation</dfn>_** error is an implementation-specific error
 that occurs when a given _option_, _option_ value, _operand_ value, or some combination

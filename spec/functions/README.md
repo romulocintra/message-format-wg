@@ -1,8 +1,7 @@
-# MessageFormat 2.0 Default Functions
+## Default Functions
 
-## Table of Contents
+### Table of Contents
 
-1. [Introduction](#introduction)
 1. [String Value Selection and Formatting](string.md)
    1. [`:string`](string.md#the-string-function)
 1. [Numeric Value Selection and Formatting](number.md)
@@ -16,12 +15,21 @@
    1. [`:date`](datetime.md#the-date-function)
    1. [`:time`](datetime.md#the-time-function)
 
-## Introduction
-
 This section defines the **_<dfn>default functions</dfn>_**
 which are REQUIRED for conformance with this specification,
 along with _default functions_ that SHOULD be implemented to support
 additional functionality.
+
+> [!IMPORTANT]
+> _Functions_ that are not marked **Draft** are **Stable** and subject to
+> the provisions of the [stability policy](../intro.md#stability-policy).
+>
+> _Functions_ and _options_ marked as **Draft** are not stable.
+> Their name, _operands_, and _options_/_values_, and other requirements
+> might change or be removed before being declared **Stable** in a future release.
+>
+> Some **Draft** _functions_ or _options_ are also marked as **Proposed**.
+> These are additions to the specification that have not yet reached Technical Preview.
 
 To **_<dfn>accept</dfn>_** a function means that an implementation MUST NOT
 emit an _Unknown Function_ error for that _function_'s _identifier_.
